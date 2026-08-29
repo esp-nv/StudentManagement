@@ -1,0 +1,35 @@
+﻿@model StudentManagement.Models.Student
+
+<h1>Add Student</h1>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label"></label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Course" class="form-label"></label>
+        <input asp-for="Course" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Age" class="form-label"></label>
+        <input asp-for="Age" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+</form>
