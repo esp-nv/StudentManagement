@@ -53,7 +53,8 @@ public class StudentsController : Controller
             return NotFound();
         }
 
-        var student = await _context.Students.FindAsync(id);
+        var student = await _studentService.GetByIdAsync(id.Value);
+
 
         if (student == null)
         {
@@ -77,8 +78,13 @@ public class StudentsController : Controller
             return View(student);
         }
 
-        _context.Update(student);
-        await _context.SaveChangesAsync();
+        var updated = await _studentService.UpdateAsync(student);
+
+        if (!updated)
+        {
+            return NotFound();
+        }
+
 
         return RedirectToAction(nameof(Index));
     }
@@ -90,7 +96,8 @@ public class StudentsController : Controller
             return NotFound();
         }
 
-        var student = await _context.Students.FirstOrDefaultAsync(m => m.Id == id);
+        var student = await _studentService.GetByIdAsync(id.Value);
+
 
         if (student == null)
         {
@@ -104,18 +111,16 @@ public class StudentsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var student = await _context.Students.FindAsync(id);
+        var deleted = await _studentService.DeleteAsync(id);
 
-        if (student == null)
+        if (!deleted)
         {
             return NotFound();
         }
 
-        _context.Students.Remove(student);
-        await _context.SaveChangesAsync();
-
         return RedirectToAction(nameof(Index));
     }
+
 
 
 }
