@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Data;
+using StudentManagement.Services;
+using StudentManagement.Services.Interfaces;
+
 
 namespace StudentManagement
 {
@@ -16,6 +19,8 @@ namespace StudentManagement
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IStudentService, StudentService>();
+
 
             var app = builder.Build();
 

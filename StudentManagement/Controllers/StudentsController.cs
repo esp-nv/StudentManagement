@@ -2,24 +2,29 @@
 using Microsoft.EntityFrameworkCore;
 using StudentManagement.Data;
 using StudentManagement.Models;
+using StudentManagement.Services.Interfaces;
+
 
 namespace StudentManagement.Controllers;
 
 public class StudentsController : Controller
 {
-    private readonly ApplicationDbContext _context;
+   private readonly IStudentService _studentService;
 
-    public StudentsController(ApplicationDbContext context)
+
+    public StudentsController(IStudentService studentService)
     {
-        _context = context;
+        _studentService = studentService;
     }
+
 
     public async Task<IActionResult> Index()
     {
-        var students = await _context.Students.ToListAsync();
+        var students = await _studentService.GetAllAsync();
 
         return View(students);
     }
+
 
     public IActionResult Create()
     {
@@ -35,11 +40,11 @@ public class StudentsController : Controller
             return View(student);
         }
 
-        _context.Students.Add(student);
-        await _context.SaveChangesAsync();
+        await _studentService.CreateAsync(student);
 
         return RedirectToAction(nameof(Index));
     }
+
 
     public async Task<IActionResult> Edit(int? id)
     {
