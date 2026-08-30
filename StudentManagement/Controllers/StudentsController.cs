@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StudentManagement.Data;
 using StudentManagement.Models;
 using StudentManagement.Services.Interfaces;
+using StudentManagement.ViewModels;
 
 
 namespace StudentManagement.Controllers;
@@ -28,19 +29,30 @@ public class StudentsController : Controller
 
     public IActionResult Create()
     {
-        return View();
+        return View(new CreateStudentViewModel());
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Student student)
+    public async Task<IActionResult> Create(CreateStudentViewModel student)
+
     {
         if (!ModelState.IsValid)
         {
             return View(student);
         }
 
-        await _studentService.CreateAsync(student);
+        var newStudent = new Student
+        {
+            FirstName = student.FirstName,
+            LastName = student.LastName,
+            Email = student.Email,
+            Course = student.Course,
+            Age = student.Age
+        };
+
+
+        await _studentService.CreateAsync(newStudent);
 
         return RedirectToAction(nameof(Index));
     }
