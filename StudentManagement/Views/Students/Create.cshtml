@@ -1,4 +1,6 @@
 ﻿@model StudentManagement.ViewModels.CreateStudentViewModel
+@using StudentManagement.Common.Constants
+
 
 <h1>Add Student</h1>
 
@@ -34,7 +36,15 @@
 
     <div class="mb-3">
         <label asp-for="Age" class="form-label"></label>
-        <input asp-for="Age" class="form-control" />
+        <input asp-for="Age"
+               type="number"
+               min="@StudentConstants.MinAge"
+               max="@StudentConstants.MaxAge"
+               class="form-control" />
+        <div class="age-hint">
+            Age → must be between @StudentConstants.MinAge and @StudentConstants.MaxAge.
+        </div>
+
         <span asp-validation-for="Age" class="text-danger"></span>
 
     </div>

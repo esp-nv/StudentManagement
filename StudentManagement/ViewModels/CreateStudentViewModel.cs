@@ -2,9 +2,6 @@
 
 using StudentManagement.Common.Constants;
 using System.ComponentModel.DataAnnotations;
-using StudentManagement.Common.Validation;
-
-
 
 public class CreateStudentViewModel
 {
@@ -19,9 +16,9 @@ public class CreateStudentViewModel
     [StringLength(100)]
     public string Email { get; set; } = string.Empty;
 
-    [Range(StudentConstants.MinAge, StudentConstants.MaxAge,
-    ErrorMessage = ValidationMessages.AgeMustBeBetweenMinAndMax)]
+    [Range(StudentConstants.MinAge, StudentConstants.MaxAge)]
     public int Age { get; set; }
+
 
 
     public string Course { get; set; } = string.Empty;
