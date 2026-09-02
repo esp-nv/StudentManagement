@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using StudentManagement.Common.Constants;
+
 
 namespace StudentManagement.Models
 {
@@ -7,7 +9,10 @@ namespace StudentManagement.Models
         public int Id { get; set; }
 
         [Required]
+        [StringLength(StudentConstants.MaxFirstNameLength,
+            MinimumLength = StudentConstants.MinFirstNameLength)]
         public string FirstName { get; set; } = string.Empty;
+
 
         [Required]
         public string LastName { get; set; } = string.Empty;

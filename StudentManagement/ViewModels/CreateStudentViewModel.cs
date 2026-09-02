@@ -6,7 +6,12 @@ using System.ComponentModel.DataAnnotations;
 public class CreateStudentViewModel
 {
     [Required]
+    [StringLength(
+     StudentConstants.MaxFirstNameLength,
+     MinimumLength = StudentConstants.MinFirstNameLength)]
     public string FirstName { get; set; } = string.Empty;
+
+
 
     [Required]
     public string LastName { get; set; } = string.Empty;
