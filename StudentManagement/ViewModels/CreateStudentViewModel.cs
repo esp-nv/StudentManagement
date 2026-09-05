@@ -24,8 +24,6 @@ public class CreateStudentViewModel
     [Range(StudentConstants.MinAge, StudentConstants.MaxAge)]
     public int Age { get; set; }
 
-
-
     public string Course { get; set; } = string.Empty;
 
 }
