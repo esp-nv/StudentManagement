@@ -28,6 +28,10 @@ public class StudentService : IStudentService
 
     public async Task CreateAsync(Student student)
     {
+        if (!student.IsDateOfBirthEstimated)
+        {
+            student.Age = CalculateAge(student.DateOfBirth);
+        }
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
     }
@@ -52,17 +56,9 @@ public class StudentService : IStudentService
 
         if (!existingStudent.IsDateOfBirthEstimated)
         {
-            var today = DateTime.Today;
-
-            var age = today.Year - existingStudent.DateOfBirth.Year;
-
-            if (existingStudent.DateOfBirth.Date > today.AddYears(-age))
-            {
-                age--;
-            }
-
-            existingStudent.Age = age;
+            existingStudent.Age = CalculateAge(existingStudent.DateOfBirth);
         }
+
 
         await _context.SaveChangesAsync();
 
@@ -83,4 +79,18 @@ public class StudentService : IStudentService
 
         return true;
     }
+    private static int CalculateAge(DateTime dateOfBirth)
+    {
+        var today = DateTime.Today;
+
+        var age = today.Year - dateOfBirth.Year;
+
+        if (dateOfBirth.Date > today.AddYears(-age))
+        {
+            age--;
+        }
+
+        return age;
+    }
+
 }

@@ -48,8 +48,11 @@ public class StudentsController : Controller
             LastName = student.LastName,
             Email = student.Email,
             Course = student.Course,
-            DateOfBirth = student.DateOfBirth
+            DateOfBirth = student.DateOfBirth,
+            IsDateOfBirthEstimated = false,
+            Age = CalculateAge(student.DateOfBirth)
         };
+
 
 
         await _studentService.CreateAsync(newStudent);
