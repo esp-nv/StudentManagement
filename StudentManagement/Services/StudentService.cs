@@ -46,7 +46,7 @@ public class StudentService : IStudentService
         existingStudent.LastName = student.LastName;
         existingStudent.Email = student.Email;
         existingStudent.Course = student.Course;
-        existingStudent.Age = student.Age;
+        existingStudent.DateOfBirth = student.DateOfBirth;
 
         await _context.SaveChangesAsync();
 

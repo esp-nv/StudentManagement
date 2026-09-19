@@ -21,8 +21,9 @@ public class CreateStudentViewModel
     [StringLength(100)]
     public string Email { get; set; } = string.Empty;
 
-    [Range(StudentConstants.MinAge, StudentConstants.MaxAge)]
-    public int Age { get; set; }
+    [Required]
+    public DateTime DateOfBirth { get; set; }
+
 
     public string Course { get; set; } = string.Empty;
 

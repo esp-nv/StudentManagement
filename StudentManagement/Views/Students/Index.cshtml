@@ -29,7 +29,7 @@
                 <td>@student.LastName</td>
                 <td>@student.Email</td>
                 <td>@student.Course</td>
-                <td>@student.Age</td>
+                <td>@student.DateOfBirth.ToString("dd.MM.yyyy")</td>
                 <td>
                     <a asp-action="Edit"
                        asp-route-id="@student.Id"

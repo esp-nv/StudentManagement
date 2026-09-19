@@ -48,7 +48,7 @@ public class StudentsController : Controller
             LastName = student.LastName,
             Email = student.Email,
             Course = student.Course,
-            Age = student.Age
+            DateOfBirth = student.DateOfBirth
         };
 
 
