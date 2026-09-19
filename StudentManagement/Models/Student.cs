@@ -15,6 +15,9 @@ namespace StudentManagement.Models
 
 
         [Required]
+        [StringLength(
+            StudentConstants.MaxLastNameLength,
+            MinimumLength = StudentConstants.MinLastNameLength)]
         public string LastName { get; set; } = string.Empty;
 
         [Required]
@@ -23,7 +26,7 @@ namespace StudentManagement.Models
 
         public string Course { get; set; } = string.Empty;
 
-        public int Age { get; set; }
+       // public int Age { get; set; }
 
 
         public DateTime DateOfBirth { get; set; }
