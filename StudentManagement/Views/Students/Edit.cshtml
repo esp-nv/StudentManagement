@@ -4,6 +4,8 @@
 @{
 }
 @model StudentManagement.Models.Student
+@using StudentManagement.Common.Constants
+
 
 <h1>Edit Student</h1>
 
@@ -17,14 +19,31 @@
            value="false" />
 
     <div class="mb-3">
-        <label asp-for="FirstName" class="form-label"></label>
-        <input asp-for="FirstName" class="form-control" />
+        <label asp-for="FirstName" class="form-label">
+            First name *
+        </label>
+
+        <input asp-for="FirstName"
+               minlength="@StudentConstants.MinFirstNameLength"
+               maxlength="@StudentConstants.MaxFirstNameLength"
+               class="form-control" />
+
+        <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
+        <label asp-for="LastName" class="form-label">
+            Last name *
+        </label>
+
+        <input asp-for="LastName"
+               minlength="@StudentConstants.MinLastNameLength"
+               maxlength="@StudentConstants.MaxLastNameLength"
+               class="form-control" />
+
+        <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
+
 
     <div class="mb-3">
         <label asp-for="Email" class="form-label"></label>

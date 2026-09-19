@@ -26,12 +26,21 @@
 
     </div>
 
-    <div class="mb-3">
-        <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
-        <span asp-validation-for="LastName" class="text-danger"></span>
+    <label asp-for="LastName" class="form-label">
+        Last name *
+    </label>
 
+    <input asp-for="LastName"
+           minlength="@StudentConstants.MinLastNameLength"
+           maxlength="@StudentConstants.MaxLastNameLength"
+           class="form-control" />
+
+    <div class="last-name-hint">
+        Last name → remaining @StudentConstants.MaxLastNameLength characters.
     </div>
+
+    <span asp-validation-for="LastName" class="text-danger"></span>
+
 
     <div class="mb-3">
         <label asp-for="Email" class="form-label"></label>
