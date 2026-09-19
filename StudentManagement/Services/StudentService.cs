@@ -46,7 +46,23 @@ public class StudentService : IStudentService
         existingStudent.LastName = student.LastName;
         existingStudent.Email = student.Email;
         existingStudent.Course = student.Course;
+        existingStudent.Age = student.Age;
         existingStudent.DateOfBirth = student.DateOfBirth;
+        existingStudent.IsDateOfBirthEstimated = student.IsDateOfBirthEstimated;
+
+        if (!existingStudent.IsDateOfBirthEstimated)
+        {
+            var today = DateTime.Today;
+
+            var age = today.Year - existingStudent.DateOfBirth.Year;
+
+            if (existingStudent.DateOfBirth.Date > today.AddYears(-age))
+            {
+                age--;
+            }
+
+            existingStudent.Age = age;
+        }
 
         await _context.SaveChangesAsync();
 

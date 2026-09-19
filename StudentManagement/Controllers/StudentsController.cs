@@ -75,10 +75,12 @@ public class StudentsController : Controller
 
         return View(student);
     }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, Student student)
+    public async Task<IActionResult> Edit(
+        int id,
+        Student student,
+        bool dateOfBirthConfirmed)
     {
         if (id != student.Id)
         {
@@ -90,6 +92,23 @@ public class StudentsController : Controller
             return View(student);
         }
 
+        var existingStudent = await _studentService.GetByIdAsync(id);
+
+        if (existingStudent == null)
+        {
+            return NotFound();
+        }
+
+        if (dateOfBirthConfirmed)
+        {
+            student.IsDateOfBirthEstimated = false;
+        }
+        else
+        {
+            student.IsDateOfBirthEstimated =
+                existingStudent.IsDateOfBirthEstimated;
+        }
+
         var updated = await _studentService.UpdateAsync(student);
 
         if (!updated)
@@ -97,9 +116,10 @@ public class StudentsController : Controller
             return NotFound();
         }
 
-
         return RedirectToAction(nameof(Index));
     }
+
+
 
     public async Task<IActionResult> Delete(int? id)
     {
@@ -132,7 +152,5 @@ public class StudentsController : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
-
 
 }

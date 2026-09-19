@@ -11,6 +11,11 @@
 
     <input type="hidden" asp-for="Id" />
 
+    <input type="hidden"
+           id="dateOfBirthConfirmed"
+           name="dateOfBirthConfirmed"
+           value="false" />
+
     <div class="mb-3">
         <label asp-for="FirstName" class="form-label"></label>
         <input asp-for="FirstName" class="form-control" />
@@ -35,13 +40,47 @@
         <label asp-for="DateOfBirth" class="form-label">
             Date of birth *
         </label>
+
         <input asp-for="DateOfBirth"
                type="date"
-               class="form-control" />
+               class="form-control"
+               id="dateOfBirthInput"
+               readonly="@Model.IsDateOfBirthEstimated" />
+
+        @if (Model.IsDateOfBirthEstimated)
+        {
+            <div class="alert alert-warning mt-2">
+                <strong>Notice:</strong>
+                This date of birth was automatically generated from the
+                previous age information.
+                Please enter the actual date of birth.
+            </div>
+
+            <button type="button"
+                    id="updateDateOfBirthButton"
+                    class="btn btn-outline-primary">
+                Update date of birth
+            </button>
+        }
     </div>
+
 
 
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <script>
+               document.getElementById("updateDateOfBirthButton")?.addEventListener("click", function () {
+            const input = document.getElementById("dateOfBirthInput");
+            const confirmed = document.getElementById("dateOfBirthConfirmed");
+
+            input.removeAttribute("readonly");
+            confirmed.value = "true";
+
+            input.focus();
+
+            this.style.display = "none";
+        });
+
+    </script>
 
 </form>
