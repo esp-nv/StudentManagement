@@ -49,8 +49,7 @@ public class StudentsController : Controller
             Email = student.Email,
             Course = student.Course,
             DateOfBirth = student.DateOfBirth,
-            IsDateOfBirthEstimated = false,
-            Age = CalculateAge(student.DateOfBirth)
+            IsDateOfBirthEstimated = false
         };
 
 
