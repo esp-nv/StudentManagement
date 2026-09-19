@@ -22,7 +22,9 @@ public string LastName { get; set; } = string.Empty;
 
         [Required]
         [EmailAddress]
+        [StringLength(StudentConstants.MaxEmailLength)]
         public string Email { get; set; } = string.Empty;
+
 
         public string Course { get; set; } = string.Empty;
 

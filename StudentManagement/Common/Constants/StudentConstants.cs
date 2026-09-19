@@ -11,4 +11,6 @@ public static class StudentConstants
     public const int MinLastNameLength = 2;
     public const int MaxLastNameLength = 100;
 
+    public const int MaxEmailLength = 254;
+
 }
