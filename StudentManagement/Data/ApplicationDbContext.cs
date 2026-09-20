@@ -12,5 +12,8 @@ namespace StudentManagement.Data
         }
 
         public DbSet<Student> Students { get; set; } = null!;
+
+        public DbSet<Area> Areas { get; set; } = null!;
+
     }
 }

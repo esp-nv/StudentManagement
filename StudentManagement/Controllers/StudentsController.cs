@@ -47,7 +47,6 @@ public class StudentsController : Controller
             FirstName = student.FirstName,
             LastName = student.LastName,
             Email = student.Email,
-            Course = student.Course,
             DateOfBirth = student.DateOfBirth,
             IsDateOfBirthEstimated = false
         };

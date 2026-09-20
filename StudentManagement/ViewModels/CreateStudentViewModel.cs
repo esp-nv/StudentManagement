@@ -24,7 +24,4 @@ public class CreateStudentViewModel
     [Required]
     public DateTime DateOfBirth { get; set; }
 
-
-    public string Course { get; set; } = string.Empty;
-
 }

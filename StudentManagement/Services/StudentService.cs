@@ -49,7 +49,6 @@ public class StudentService : IStudentService
         existingStudent.FirstName = student.FirstName;
         existingStudent.LastName = student.LastName;
         existingStudent.Email = student.Email;
-        existingStudent.Course = student.Course;
         existingStudent.DateOfBirth = student.DateOfBirth;
         existingStudent.IsDateOfBirthEstimated = student.IsDateOfBirthEstimated;
 
