@@ -15,5 +15,7 @@ namespace StudentManagement.Data
 
         public DbSet<Area> Areas { get; set; } = null!;
 
+        public DbSet<StudyProgram> StudyPrograms { get; set; } = null!;
+
     }
 }

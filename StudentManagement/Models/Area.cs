@@ -21,4 +21,7 @@ public class Area
 
     [StringLength(AreaConstants.MaxDescriptionLength)]
     public string Description { get; set; } = string.Empty;
+
+    public ICollection<StudyProgram> StudyPrograms { get; set; }
+        = new List<StudyProgram>();
 }
