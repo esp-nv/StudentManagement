@@ -19,6 +19,9 @@ namespace StudentManagement.Data
 
         public DbSet<Module> Modules { get; set; }
 
+        public DbSet<Course> Courses { get; set; } = null!;
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
