@@ -24,4 +24,7 @@ public class Area
 
     public ICollection<StudyProgram> StudyPrograms { get; set; }
         = new List<StudyProgram>();
+
+    public bool IsDeleted { get; set; }
+
 }

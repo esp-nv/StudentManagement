@@ -26,4 +26,10 @@ public class StudyProgram
     public string Description { get; set; } = string.Empty;
 
     public Area Area { get; set; } = null!;
+
+    public ICollection<Module> Modules { get; set; } = new List<Module>();
+
+    public bool IsDeleted { get; set; }
+
+
 }

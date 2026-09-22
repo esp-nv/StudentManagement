@@ -34,5 +34,8 @@ public string LastName { get; set; } = string.Empty;
 
         public bool IsDateOfBirthEstimated { get; set; }
 
+        public bool IsDeleted { get; set; }
+
+
     }
 }
