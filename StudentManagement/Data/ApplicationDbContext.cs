@@ -24,6 +24,8 @@ namespace StudentManagement.Data
 
         public DbSet<CourseOffering> CourseOfferings { get; set; } = null!;
 
+        public DbSet<Enrollment> Enrollments { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,12 +39,16 @@ namespace StudentManagement.Data
             }
 
             modelBuilder.Entity<CourseOffering>()
-    .ToTable("CourseOfferings", table =>
-    {
-        table.HasCheckConstraint(
-            "CK_CourseOffering_EndDate_After_StartDate",
-            "[EndDate] >= [StartDate]");
-    });
+                   .ToTable("CourseOfferings", table =>
+                     {
+                           table.HasCheckConstraint(
+                            "CK_CourseOffering_EndDate_After_StartDate",
+                             "[EndDate] >= [StartDate]");
+                       });
+
+            modelBuilder.Entity<Enrollment>()
+                   .HasIndex(e => new { e.StudentId, e.CourseOfferingId })
+                  .IsUnique();
 
         }
 
