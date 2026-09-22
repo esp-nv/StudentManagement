@@ -23,4 +23,7 @@ public class Course
     public string Description { get; set; } = string.Empty;
 
     public bool IsDeleted { get; set; }
+
+    public ICollection<Module> Modules { get; set; } = new List<Module>();
+
 }

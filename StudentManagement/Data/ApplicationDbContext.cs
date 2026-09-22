@@ -17,9 +17,12 @@ namespace StudentManagement.Data
 
         public DbSet<StudyProgram> StudyPrograms { get; set; } = null!;
 
-        public DbSet<Module> Modules { get; set; }
+        public DbSet<Module> Modules { get; set; } = null!;
+
 
         public DbSet<Course> Courses { get; set; } = null!;
+
+        public DbSet<CourseOffering> CourseOfferings { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -32,6 +35,15 @@ namespace StudentManagement.Data
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            modelBuilder.Entity<CourseOffering>()
+    .ToTable("CourseOfferings", table =>
+    {
+        table.HasCheckConstraint(
+            "CK_CourseOffering_EndDate_After_StartDate",
+            "[EndDate] >= [StartDate]");
+    });
+
         }
 
     }

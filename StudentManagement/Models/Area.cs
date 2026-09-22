@@ -1,8 +1,7 @@
-﻿namespace StudentManagement.Models;
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using StudentManagement.Common.Constants;
 
+namespace StudentManagement.Models;
 public class Area
 {
     public int Id { get; set; }

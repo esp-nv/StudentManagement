@@ -22,4 +22,8 @@ public class Module
     public bool IsDeleted { get; set; }
 
     public StudyProgram StudyProgram { get; set; } = null!;
+
+    public ICollection<Course> Courses { get; set; } = new List<Course>();
+
+
 }

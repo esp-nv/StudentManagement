@@ -14,11 +14,11 @@ namespace StudentManagement.Models
         public string FirstName { get; set; } = string.Empty;
 
 
-[Required]
-[StringLength(
-    StudentConstants.MaxLastNameLength,
-    MinimumLength = StudentConstants.MinLastNameLength)]
-public string LastName { get; set; } = string.Empty;
+        [Required]
+        [StringLength(
+            StudentConstants.MaxLastNameLength,
+            MinimumLength = StudentConstants.MinLastNameLength)]
+        public string LastName { get; set; } = string.Empty;
 
         [Required]
         [EmailAddress]
@@ -27,7 +27,7 @@ public string LastName { get; set; } = string.Empty;
 
 
 
-       // public int Age { get; set; }
+        // public int Age { get; set; }
 
 
         public DateTime DateOfBirth { get; set; }
