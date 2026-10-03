@@ -21,7 +21,7 @@ namespace StudentManagement
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IStudentService, StudentService>();
-
+            builder.Services.AddScoped<ICourseService, CourseService>();
             builder.Services.AddScoped<ICourseOfferingService, CourseOfferingService>();
 
             builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();

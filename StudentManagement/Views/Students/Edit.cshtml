@@ -1,11 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@model StudentManagement.Models.Student
+﻿@model StudentManagement.Models.Student
 @using StudentManagement.Common.Constants
 
+@{
+    ViewData["Title"] = "Edit Student";
+}
 
 <h1>Edit Student</h1>
 
@@ -18,6 +16,10 @@
            name="dateOfBirthConfirmed"
            value="false" />
 
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger">
+    </div>
+
     <div class="mb-3">
         <label asp-for="FirstName" class="form-label">
             First name *
@@ -26,9 +28,15 @@
         <input asp-for="FirstName"
                minlength="@StudentConstants.MinFirstNameLength"
                maxlength="@StudentConstants.MaxFirstNameLength"
+               data-character-counter
+               data-character-label="First name"
                class="form-control" />
 
-        <span asp-validation-for="FirstName" class="text-danger"></span>
+        <div class="first-name-hint character-hint"></div>
+
+        <span asp-validation-for="FirstName"
+              class="text-danger">
+        </span>
     </div>
 
     <div class="mb-3">
@@ -39,11 +47,16 @@
         <input asp-for="LastName"
                minlength="@StudentConstants.MinLastNameLength"
                maxlength="@StudentConstants.MaxLastNameLength"
+               data-character-counter
+               data-character-label="Last name"
                class="form-control" />
 
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
+        <div class="last-name-hint character-hint"></div>
 
+        <span asp-validation-for="LastName"
+              class="text-danger">
+        </span>
+    </div>
 
     <div class="mb-3">
         <label asp-for="Email" class="form-label">
@@ -54,11 +67,10 @@
                maxlength="@StudentConstants.MaxEmailLength"
                class="form-control" />
 
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <span asp-validation-for="Email"
+              class="text-danger">
+        </span>
     </div>
-
-
-   
 
     <div class="mb-3">
         <label asp-for="DateOfBirth" class="form-label">
@@ -67,9 +79,15 @@
 
         <input asp-for="DateOfBirth"
                type="date"
+               min="@DateTime.Today.AddYears(-StudentConstants.MaxAge).ToString("yyyy-MM-dd")"
+               max="@DateTime.Today.AddYears(-StudentConstants.MinAge).ToString("yyyy-MM-dd")"
                class="form-control"
                id="dateOfBirthInput"
                readonly="@Model.IsDateOfBirthEstimated" />
+
+        <div class="age-hint">
+            Age → must be between @StudentConstants.MinAge and @StudentConstants.MaxAge.
+        </div>
 
         @if (Model.IsDateOfBirthEstimated)
         {
@@ -86,16 +104,33 @@
                 Update date of birth
             </button>
         }
+
+        <span asp-validation-for="DateOfBirth"
+              class="text-danger">
+        </span>
     </div>
 
+    <button type="submit" class="btn btn-primary">
+        Save
+    </button>
 
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancel
+    </a>
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-   <script>
-               document.getElementById("updateDateOfBirthButton")?.addEventListener("click", function () {
-            const input = document.getElementById("dateOfBirthInput");
-            const confirmed = document.getElementById("dateOfBirthConfirmed");
+</form>
+
+<script>
+    document
+        .getElementById("updateDateOfBirthButton")
+        ?.addEventListener("click", function () {
+
+            const input =
+                document.getElementById("dateOfBirthInput");
+
+            const confirmed =
+                document.getElementById("dateOfBirthConfirmed");
 
             input.removeAttribute("readonly");
             confirmed.value = "true";
@@ -104,7 +139,4 @@
 
             this.style.display = "none";
         });
-
-    </script>
-
-</form>
+</script>

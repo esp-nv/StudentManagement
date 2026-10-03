@@ -3,16 +3,38 @@
 
 // Write your JavaScript code.
 
-const firstNameInput = document.querySelector('input[name="FirstName"]');
-const firstNameHint = document.querySelector('.first-name-hint');
+// Character counter for form fields.
+// The hint is visible only while the field is active.
 
-if (firstNameInput && firstNameHint) {
-    const maxLength = firstNameInput.maxLength;
+document.querySelectorAll('[data-character-counter]').forEach(input => {
+    const hint = input
+        .closest('.mb-3')
+        ?.querySelector('.character-hint');
 
-    firstNameInput.addEventListener('input', function () {
-        const remainingCharacters = maxLength - this.value.length;
+    if (!hint) {
+        return;
+    }
 
-        firstNameHint.textContent =
-            `First name → remaining ${remainingCharacters} characters.`;
+    input.addEventListener('focus', function () {
+        updateCharacterHint(this, hint);
+        hint.style.display = 'block';
     });
+
+    input.addEventListener('input', function () {
+        updateCharacterHint(this, hint);
+    });
+
+    input.addEventListener('blur', function () {
+        hint.style.display = 'none';
+    });
+
+    hint.style.display = 'none';
+});
+
+function updateCharacterHint(input, hint) {
+    const remainingCharacters =
+        input.maxLength - input.value.length;
+
+    hint.textContent =
+        `${input.dataset.characterLabel} → remaining ${remainingCharacters} characters.`;
 }

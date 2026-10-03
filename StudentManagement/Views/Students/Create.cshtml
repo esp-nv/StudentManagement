@@ -14,33 +14,35 @@
         <input asp-for="FirstName"
                minlength="@StudentConstants.MinFirstNameLength"
                maxlength="@StudentConstants.MaxFirstNameLength"
+               data-character-counter
+               data-character-label="First name"
                class="form-control" />
 
+        <div class="first-name-hint character-hint"></div>
 
-        <div class="first-name-hint">
-            First name → remaining @StudentConstants.MaxFirstNameLength characters.
-        </div>
-
-        <span asp-validation-for="FirstName" class="text-danger"></span>
-
-
+        <span asp-validation-for="FirstName"
+              class="text-danger">
+        </span>
     </div>
 
-    <label asp-for="LastName" class="form-label">
-        Last name *
-    </label>
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label">
+            Last name *
+        </label>
 
-    <input asp-for="LastName"
-           minlength="@StudentConstants.MinLastNameLength"
-           maxlength="@StudentConstants.MaxLastNameLength"
-           class="form-control" />
+        <input asp-for="LastName"
+               minlength="@StudentConstants.MinLastNameLength"
+               maxlength="@StudentConstants.MaxLastNameLength"
+               data-character-counter
+               data-character-label="Last name"
+               class="form-control" />
 
-    <div class="last-name-hint">
-        Last name → remaining @StudentConstants.MaxLastNameLength characters.
+        <div class="last-name-hint character-hint"></div>
+
+        <span asp-validation-for="LastName"
+              class="text-danger">
+        </span>
     </div>
-
-    <span asp-validation-for="LastName" class="text-danger"></span>
-
 
     <div class="mb-3">
         <label asp-for="Email" class="form-label">
@@ -51,10 +53,10 @@
                maxlength="@StudentConstants.MaxEmailLength"
                class="form-control" />
 
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <span asp-validation-for="Email"
+              class="text-danger">
+        </span>
     </div>
-
-
 
     <div class="mb-3">
         <label asp-for="DateOfBirth" class="form-label">
@@ -66,10 +68,14 @@
                min="@DateTime.Today.AddYears(-StudentConstants.MaxAge).ToString("yyyy-MM-dd")"
                max="@DateTime.Today.AddYears(-StudentConstants.MinAge).ToString("yyyy-MM-dd")"
                class="form-control" />
+
         <div class="age-hint">
             Age → must be between @StudentConstants.MinAge and @StudentConstants.MaxAge.
         </div>
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+        <span asp-validation-for="DateOfBirth"
+              class="text-danger">
+        </span>
     </div>
 
 
