@@ -1,3 +1,4 @@
+````text
 Project Checklist
 Last Updated: 2026-09-06
 Status: Work in Progress
@@ -323,7 +324,7 @@ Future Versions
 
 Ще бъдат сравнени:
 
-text_chatGPT — историческите бележки и обсъждания;
+
 StudentManagement Git History — какво реално е променяно;
 Current Code — какво действително съществува в момента.
 От тях ще бъде изведено реалното състояние на проекта и ще бъде определена стабилната Version 1.
