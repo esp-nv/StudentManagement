@@ -29,6 +29,12 @@
                 <td>@student.Email</td>
                 <td>@student.DateOfBirth.ToString("dd.MM.yyyy")</td>
                 <td>
+                    <a asp-action="Details"
+                       asp-route-id="@student.Id"
+                       class="btn btn-info">
+                        Details
+                    </a>
+
                     <a asp-action="Edit"
                        asp-route-id="@student.Id"
                        class="btn btn-warning">

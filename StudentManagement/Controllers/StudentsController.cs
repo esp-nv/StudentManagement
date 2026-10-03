@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using StudentManagement.Data;
 using StudentManagement.Models;
 using StudentManagement.Services.Interfaces;
 using StudentManagement.ViewModels;
@@ -24,6 +22,23 @@ public class StudentsController : Controller
         var students = await _studentService.GetAllAsync();
 
         return View(students);
+    }
+
+    public async Task<IActionResult> Details(int? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var student = await _studentService.GetByIdAsync(id.Value);
+
+        if (student == null)
+        {
+            return NotFound();
+        }
+
+        return View(student);
     }
 
 

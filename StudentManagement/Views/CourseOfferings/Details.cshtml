@@ -1,0 +1,24 @@
+﻿@model StudentManagement.Models.CourseOffering
+
+@{
+    // DB: Провери дали Course трябва да бъде включен при четене на CourseOffering.
+
+    ViewData["Title"] = "Course Offering";
+}
+
+<h1>Course Offering</h1>
+
+<div>
+    <h4>@Model.Course.Name</h4>
+
+    <dl>
+        <dt>Start Date</dt>
+        <dd>@Model.StartDate.ToShortDateString()</dd>
+
+        <dt>End Date</dt>
+        <dd>@Model.EndDate.ToShortDateString()</dd>
+
+        <dt>Capacity</dt>
+        <dd>@Model.Capacity</dd>
+    </dl>
+</div>

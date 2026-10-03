@@ -28,3 +28,56 @@ body {
 input[name="Age"]:focus ~ .age-hint {
     display: block;
 }
+
+/* UI: Тестов dashboard sidebar.
+   Да се преработи при финализиране на Dashboard UI. */
+
+body {
+    margin: 0;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background-color: #212529;
+    color: white;
+    padding: 20px 0;
+    z-index: 1000;
+}
+
+.sidebar-brand {
+    padding: 0 20px 25px;
+    border-bottom: 1px solid #495057;
+}
+
+    .sidebar-brand a {
+        color: white;
+        text-decoration: none;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+    .sidebar-nav a {
+        color: #dee2e6;
+        text-decoration: none;
+        padding: 12px 20px;
+    }
+
+        .sidebar-nav a:hover {
+            background-color: #343a40;
+            color: white;
+        }
+
+.container {
+    margin-left: 240px;
+    padding: 20px;
+}
