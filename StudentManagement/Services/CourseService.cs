@@ -23,6 +23,15 @@ public class CourseService : ICourseService
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Course>> GetAvailableForOfferingAsync()
+    {
+        return await _context.Courses
+            .AsNoTracking()
+            .Where(c => !c.IsDeleted)
+            .OrderBy(c => c.Name)
+            .ToListAsync();
+    }
+
     public async Task<Course?> GetByIdAsync(int id)
     {
         return await _context.Courses

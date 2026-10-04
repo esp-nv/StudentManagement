@@ -17,6 +17,13 @@ public class CourseOffering : IValidatableObject
 
     public int Year => StartDate.Year;
 
+    [Required]
+    public DateTime EnrollmentStartDate { get; set; }
+
+    [Required]
+    public DateTime EnrollmentEndDate { get; set; }
+
+
     [Range(1, int.MaxValue)]
     public int Capacity { get; set; }
 
@@ -33,5 +40,13 @@ public class CourseOffering : IValidatableObject
                 "End date cannot be before start date.",
                 new[] { nameof(EndDate) });
         }
+
+        if (EnrollmentEndDate < EnrollmentStartDate)
+        {
+            yield return new ValidationResult(
+                "Enrollment end date cannot be before enrollment start date.",
+                new[] { nameof(EnrollmentEndDate) });
+        }
+
     }
 }

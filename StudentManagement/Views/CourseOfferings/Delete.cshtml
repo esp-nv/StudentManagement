@@ -1,0 +1,53 @@
+﻿@model StudentManagement.Models.CourseOffering
+
+@{
+    ViewData["Title"] = "Delete Course Offering";
+}
+
+<h1>Delete Course Offering</h1>
+
+<h3>Are you sure you want to delete this course offering?</h3>
+
+<div>
+    <h4>@Model.Course.Name</h4>
+
+    <dl>
+        <dt>Course</dt>
+        <dd>
+            @Model.Course.Code - @Model.Course.Name
+        </dd>
+
+        <dt>Start Date</dt>
+        <dd>@Model.StartDate.ToShortDateString()</dd>
+
+        <dt>End Date</dt>
+        <dd>@Model.EndDate.ToShortDateString()</dd>
+
+        <dt>Enrollment Start Date</dt>
+        <dd>@Model.EnrollmentStartDate.ToShortDateString()</dd>
+
+        <dt>Enrollment End Date</dt>
+        <dd>@Model.EnrollmentEndDate.ToShortDateString()</dd>
+
+        <dt>Capacity</dt>
+        <dd>@Model.Capacity</dd>
+    </dl>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+
+    <input type="hidden"
+           name="id"
+           value="@Model.Id" />
+
+    <button type="submit"
+            class="btn btn-danger">
+        Delete
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+
+</form>

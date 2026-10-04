@@ -19,8 +19,10 @@ public class CourseOfferingService : ICourseOfferingService
         return await _context.CourseOfferings
             .AsNoTracking()
             .Include(co => co.Course)
-            .Where(co => !co.IsDeleted)
-            .OrderByDescending(co => co.StartDate)
+            .Where(co =>
+                !co.IsDeleted &&
+                !co.Course.IsDeleted)
+            .OrderBy(co => co.StartDate)
             .ToListAsync();
     }
 
@@ -31,18 +33,24 @@ public class CourseOfferingService : ICourseOfferingService
             .Include(co => co.Course)
             .FirstOrDefaultAsync(co =>
                 co.Id == id &&
-                !co.IsDeleted);
+                !co.IsDeleted &&
+                !co.Course.IsDeleted);
     }
 
     public async Task<CourseOffering?> CreateAsync(
         CourseOffering courseOffering)
     {
-        var course = await _context.Courses
-            .FirstOrDefaultAsync(c =>
+        if (!IsValidDates(courseOffering))
+        {
+            return null;
+        }
+
+        var courseExists = await _context.Courses
+            .AnyAsync(c =>
                 c.Id == courseOffering.CourseId &&
                 !c.IsDeleted);
 
-        if (course == null)
+        if (!courseExists)
         {
             return null;
         }
@@ -59,6 +67,11 @@ public class CourseOfferingService : ICourseOfferingService
     public async Task<bool> UpdateAsync(
         CourseOffering courseOffering)
     {
+        if (!IsValidDates(courseOffering))
+        {
+            return false;
+        }
+
         var existingCourseOffering = await _context.CourseOfferings
             .FirstOrDefaultAsync(co =>
                 co.Id == courseOffering.Id &&
@@ -79,10 +92,23 @@ public class CourseOfferingService : ICourseOfferingService
             return false;
         }
 
-        existingCourseOffering.CourseId = courseOffering.CourseId;
-        existingCourseOffering.StartDate = courseOffering.StartDate;
-        existingCourseOffering.EndDate = courseOffering.EndDate;
-        existingCourseOffering.Capacity = courseOffering.Capacity;
+        existingCourseOffering.CourseId =
+            courseOffering.CourseId;
+
+        existingCourseOffering.StartDate =
+            courseOffering.StartDate;
+
+        existingCourseOffering.EndDate =
+            courseOffering.EndDate;
+
+        existingCourseOffering.EnrollmentStartDate =
+            courseOffering.EnrollmentStartDate;
+
+        existingCourseOffering.EnrollmentEndDate =
+            courseOffering.EnrollmentEndDate;
+
+        existingCourseOffering.Capacity =
+            courseOffering.Capacity;
 
         await _context.SaveChangesAsync();
 
@@ -106,5 +132,15 @@ public class CourseOfferingService : ICourseOfferingService
         await _context.SaveChangesAsync();
 
         return true;
+    }
+
+    private static bool IsValidDates(
+        CourseOffering courseOffering)
+    {
+        return courseOffering.StartDate <= courseOffering.EndDate
+            && courseOffering.EnrollmentStartDate
+                <= courseOffering.EnrollmentEndDate
+            && courseOffering.EnrollmentStartDate
+                <= courseOffering.StartDate;
     }
 }

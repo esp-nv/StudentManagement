@@ -1,0 +1,87 @@
+﻿@model IEnumerable<StudentManagement.Models.CourseOffering>
+
+@{
+    ViewData["Title"] = "Course Offerings";
+}
+
+<h1>Course Offerings</h1>
+
+<a asp-action="Create"
+   class="btn btn-primary">
+    Add Course Offering
+</a>
+
+@{
+    var number = 1;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Course</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Enrollment Start Date</th>
+            <th>Enrollment End Date</th>
+            <th>Capacity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var courseOffering in Model)
+        {
+            <tr>
+                <td>@number</td>
+
+                <td>
+                    @courseOffering.Course.Code -
+                    @courseOffering.Course.Name
+                </td>
+
+                <td>
+                    @courseOffering.StartDate.ToShortDateString()
+                </td>
+
+                <td>
+                    @courseOffering.EndDate.ToShortDateString()
+                </td>
+
+                <td>
+                    @courseOffering.EnrollmentStartDate.ToShortDateString()
+                </td>
+
+                <td>
+                    @courseOffering.EnrollmentEndDate.ToShortDateString()
+                </td>
+
+                <td>
+                    @courseOffering.Capacity
+                </td>
+
+                <td>
+                    <a asp-action="Details"
+                       asp-route-id="@courseOffering.Id"
+                       class="btn btn-info">
+                        Details
+                    </a>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@courseOffering.Id"
+                       class="btn btn-warning">
+                        Edit
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@courseOffering.Id"
+                       class="btn btn-danger">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+
+            number++;
+        }
+    </tbody>
+</table>

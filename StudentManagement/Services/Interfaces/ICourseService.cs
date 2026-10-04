@@ -6,6 +6,8 @@ public interface ICourseService
 {
     Task<IEnumerable<Course>> GetAllAsync();
 
+    Task<IEnumerable<Course>> GetAvailableForOfferingAsync();
+
     Task<Course?> GetByIdAsync(int id);
 
     Task<Course?> CreateAsync(Course course);

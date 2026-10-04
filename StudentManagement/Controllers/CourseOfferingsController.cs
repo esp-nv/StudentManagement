@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using StudentManagement.Models;
 using StudentManagement.Services.Interfaces;
+using StudentManagement.ViewModels;
 
 namespace StudentManagement.Controllers;
 
@@ -40,20 +40,36 @@ public class CourseOfferingsController : Controller
 
     public async Task<IActionResult> Create()
     {
-        await LoadCoursesAsync();
+        var viewModel = new CourseOfferingViewModel();
 
-        return View(new CourseOffering());
+        await PrepareViewModelAsync(viewModel);
+
+        return View(viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
-        CourseOffering courseOffering)
+        CourseOfferingViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
-            return await ReturnToFormAsync(courseOffering);
+            await PrepareViewModelAsync(viewModel);
+
+            return View(viewModel);
         }
+
+        var courseOffering = new CourseOffering
+        {
+            CourseId = viewModel.CourseId,
+            StartDate = viewModel.StartDate.Value,
+            EndDate = viewModel.EndDate.Value,
+            EnrollmentStartDate =
+                viewModel.EnrollmentStartDate.Value,
+            EnrollmentEndDate =
+                viewModel.EnrollmentEndDate.Value,
+            Capacity = viewModel.Capacity
+        };
 
         var created = await _courseOfferingService
             .CreateAsync(courseOffering);
@@ -61,10 +77,12 @@ public class CourseOfferingsController : Controller
         if (created == null)
         {
             ModelState.AddModelError(
-                nameof(CourseOffering.CourseId),
+                nameof(viewModel.CourseId),
                 "The selected course is not available.");
 
-            return await ReturnToFormAsync(courseOffering);
+            await PrepareViewModelAsync(viewModel);
+
+            return View(viewModel);
         }
 
         return RedirectToAction(nameof(Index));
@@ -79,26 +97,48 @@ public class CourseOfferingsController : Controller
             return NotFound();
         }
 
-        await LoadCoursesAsync(courseOffering.CourseId);
+        var viewModel = new CourseOfferingViewModel
+        {
+            CourseId = courseOffering.CourseId,
+            StartDate = courseOffering.StartDate,
+            EndDate = courseOffering.EndDate,
+            EnrollmentStartDate =
+                courseOffering.EnrollmentStartDate,
+            EnrollmentEndDate =
+                courseOffering.EnrollmentEndDate,
+            Capacity = courseOffering.Capacity
+        };
 
-        return View(courseOffering);
+        await PrepareViewModelAsync(viewModel);
+
+        return View(viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
         int id,
-        CourseOffering courseOffering)
+        CourseOfferingViewModel viewModel)
     {
-        if (id != courseOffering.Id)
-        {
-            return NotFound();
-        }
-
         if (!ModelState.IsValid)
         {
-            return await ReturnToFormAsync(courseOffering);
+            await PrepareViewModelAsync(viewModel);
+
+            return View(viewModel);
         }
+
+        var courseOffering = new CourseOffering
+        {
+            Id = id,
+            CourseId = viewModel.CourseId,
+            StartDate = viewModel.StartDate.Value,
+            EndDate = viewModel.EndDate.Value,
+            EnrollmentStartDate =
+                viewModel.EnrollmentStartDate.Value,
+            EnrollmentEndDate =
+                viewModel.EnrollmentEndDate.Value,
+            Capacity = viewModel.Capacity
+        };
 
         var updated = await _courseOfferingService
             .UpdateAsync(courseOffering);
@@ -138,8 +178,7 @@ public class CourseOfferingsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    private async Task<CourseOffering?> GetCourseOfferingAsync(
-        int? id)
+    private async Task<CourseOffering?> GetCourseOfferingAsync(int? id)
     {
         if (id == null)
         {
@@ -150,23 +189,19 @@ public class CourseOfferingsController : Controller
             .GetByIdAsync(id.Value);
     }
 
-    private async Task LoadCoursesAsync(
-        int? selectedCourseId = null)
+    private async Task PrepareViewModelAsync(
+        CourseOfferingViewModel viewModel)
     {
-        var courses = await _courseService.GetAllAsync();
+        var courses = await _courseService
+            .GetAvailableForOfferingAsync();
 
-        ViewBag.Courses = new SelectList(
-            courses,
-            "Id",
-            "Name",
-            selectedCourseId);
-    }
-
-    private async Task<IActionResult> ReturnToFormAsync(
-        CourseOffering courseOffering)
-    {
-        await LoadCoursesAsync(courseOffering.CourseId);
-
-        return View(courseOffering);
+        viewModel.Courses = courses
+            .Select(c => new CourseSelectItemViewModel
+            {
+                Id = c.Id,
+                Code = c.Code,
+                Name = c.Name
+            })
+            .ToList();
     }
 }

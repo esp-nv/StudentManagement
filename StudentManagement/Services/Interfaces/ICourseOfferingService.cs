@@ -8,9 +8,11 @@ public interface ICourseOfferingService
 
     Task<CourseOffering?> GetByIdAsync(int id);
 
-    Task<CourseOffering?> CreateAsync(CourseOffering courseOffering);
+    Task<CourseOffering?> CreateAsync(
+        CourseOffering courseOffering);
 
-    Task<bool> UpdateAsync(CourseOffering courseOffering);
+    Task<bool> UpdateAsync(
+        CourseOffering courseOffering);
 
     Task<bool> DeleteAsync(int id);
 }

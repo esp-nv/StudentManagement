@@ -1,8 +1,6 @@
 ﻿@model StudentManagement.Models.CourseOffering
 
 @{
-    // DB: Провери дали Course трябва да бъде включен при четене на CourseOffering.
-
     ViewData["Title"] = "Course Offering";
 }
 
@@ -18,7 +16,18 @@
         <dt>End Date</dt>
         <dd>@Model.EndDate.ToShortDateString()</dd>
 
+        <dt>Enrollment Start Date</dt>
+        <dd>@Model.EnrollmentStartDate.ToShortDateString()</dd>
+
+        <dt>Enrollment End Date</dt>
+        <dd>@Model.EnrollmentEndDate.ToShortDateString()</dd>
+
         <dt>Capacity</dt>
         <dd>@Model.Capacity</dd>
     </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>
