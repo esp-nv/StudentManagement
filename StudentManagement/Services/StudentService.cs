@@ -18,28 +18,34 @@ public class StudentService : IStudentService
     {
         return await _context.Students
             .AsNoTracking()
+            .Where(s => !s.IsDeleted)
             .ToListAsync();
     }
 
     public async Task<Student?> GetByIdAsync(int id)
     {
-        return await _context.Students.FindAsync(id);
+        return await _context.Students
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s =>
+                s.Id == id &&
+                !s.IsDeleted);
     }
 
     public async Task CreateAsync(Student student)
     {
-       /* if (!student.IsDateOfBirthEstimated)
-        {
-            student.Age = CalculateAge(student.DateOfBirth);
-        }*/
+        student.IsDeleted = false;
+
         _context.Students.Add(student);
+
         await _context.SaveChangesAsync();
     }
 
     public async Task<bool> UpdateAsync(Student student)
     {
         var existingStudent = await _context.Students
-            .FindAsync(student.Id);
+            .FirstOrDefaultAsync(s =>
+                s.Id == student.Id &&
+                !s.IsDeleted);
 
         if (existingStudent == null)
         {
@@ -50,14 +56,8 @@ public class StudentService : IStudentService
         existingStudent.LastName = student.LastName;
         existingStudent.Email = student.Email;
         existingStudent.DateOfBirth = student.DateOfBirth;
-        existingStudent.IsDateOfBirthEstimated = student.IsDateOfBirthEstimated;
-
-       /* if (!existingStudent.IsDateOfBirthEstimated)
-        {
-            existingStudent.Age = CalculateAge(existingStudent.DateOfBirth);
-        }*/
-
-
+        existingStudent.IsDateOfBirthEstimated =
+            student.IsDateOfBirthEstimated;
 
         await _context.SaveChangesAsync();
 
@@ -66,30 +66,20 @@ public class StudentService : IStudentService
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var student = await _context.Students.FindAsync(id);
+        var student = await _context.Students
+            .FirstOrDefaultAsync(s =>
+                s.Id == id &&
+                !s.IsDeleted);
 
         if (student == null)
         {
             return false;
         }
 
-        _context.Students.Remove(student);
+        student.IsDeleted = true;
+
         await _context.SaveChangesAsync();
 
         return true;
     }
-    private static int CalculateAge(DateTime dateOfBirth)
-    {
-        var today = DateTime.Today;
-
-        var age = today.Year - dateOfBirth.Year;
-
-        if (dateOfBirth.Date > today.AddYears(-age))
-        {
-            age--;
-        }
-
-        return age;
-    }
-
 }

@@ -22,12 +22,7 @@ public class CoursesController : Controller
 
     public async Task<IActionResult> Details(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var course = await _courseService.GetByIdAsync(id.Value);
+        var course = await GetCourseAsync(id);
 
         if (course == null)
         {
@@ -58,12 +53,7 @@ public class CoursesController : Controller
 
     public async Task<IActionResult> Edit(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var course = await _courseService.GetByIdAsync(id.Value);
+        var course = await GetCourseAsync(id);
 
         if (course == null)
         {
@@ -75,7 +65,9 @@ public class CoursesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, Course course)
+    public async Task<IActionResult> Edit(
+        int id,
+        Course course)
     {
         if (id != course.Id)
         {
@@ -99,12 +91,7 @@ public class CoursesController : Controller
 
     public async Task<IActionResult> Delete(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var course = await _courseService.GetByIdAsync(id.Value);
+        var course = await GetCourseAsync(id);
 
         if (course == null)
         {
@@ -126,5 +113,15 @@ public class CoursesController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    private async Task<Course?> GetCourseAsync(int? id)
+    {
+        if (id == null)
+        {
+            return null;
+        }
+
+        return await _courseService.GetByIdAsync(id.Value);
     }
 }

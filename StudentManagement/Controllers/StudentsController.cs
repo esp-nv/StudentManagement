@@ -3,19 +3,16 @@ using StudentManagement.Models;
 using StudentManagement.Services.Interfaces;
 using StudentManagement.ViewModels;
 
-
 namespace StudentManagement.Controllers;
 
 public class StudentsController : Controller
 {
-   private readonly IStudentService _studentService;
-
+    private readonly IStudentService _studentService;
 
     public StudentsController(IStudentService studentService)
     {
         _studentService = studentService;
     }
-
 
     public async Task<IActionResult> Index()
     {
@@ -26,12 +23,7 @@ public class StudentsController : Controller
 
     public async Task<IActionResult> Details(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var student = await _studentService.GetByIdAsync(id.Value);
+        var student = await GetStudentAsync(id);
 
         if (student == null)
         {
@@ -41,7 +33,6 @@ public class StudentsController : Controller
         return View(student);
     }
 
-
     public IActionResult Create()
     {
         return View(new CreateStudentViewModel());
@@ -49,8 +40,8 @@ public class StudentsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CreateStudentViewModel student)
-
+    public async Task<IActionResult> Create(
+        CreateStudentViewModel student)
     {
         if (!ModelState.IsValid)
         {
@@ -66,23 +57,14 @@ public class StudentsController : Controller
             IsDateOfBirthEstimated = false
         };
 
-
-
         await _studentService.CreateAsync(newStudent);
 
         return RedirectToAction(nameof(Index));
     }
 
-
     public async Task<IActionResult> Edit(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var student = await _studentService.GetByIdAsync(id.Value);
-
+        var student = await GetStudentAsync(id);
 
         if (student == null)
         {
@@ -91,6 +73,7 @@ public class StudentsController : Controller
 
         return View(student);
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
@@ -108,7 +91,7 @@ public class StudentsController : Controller
             return View(student);
         }
 
-        var existingStudent = await _studentService.GetByIdAsync(id);
+        var existingStudent = await GetStudentAsync(id);
 
         if (existingStudent == null)
         {
@@ -135,17 +118,9 @@ public class StudentsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-
-
     public async Task<IActionResult> Delete(int? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var student = await _studentService.GetByIdAsync(id.Value);
-
+        var student = await GetStudentAsync(id);
 
         if (student == null)
         {
@@ -169,4 +144,13 @@ public class StudentsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    private async Task<Student?> GetStudentAsync(int? id)
+    {
+        if (id == null)
+        {
+            return null;
+        }
+
+        return await _studentService.GetByIdAsync(id.Value);
+    }
 }
